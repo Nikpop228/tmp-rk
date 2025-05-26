@@ -27,9 +27,15 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build/tests
-      run: ctest -C ${{env.BUILD_TYPE}}
-
     - name: Run tests
-      run: ${{github.workspace}}/build/tests/tests && cd ${{github.workspace}}/build/tests && ctest --output-on-failure 
+      run: ${{github.workspace}}/build/tests/tests && cd ${{github.workspace}}/build/tests && ctest --output-on-failure
+    
+    - name: Create deb package
+      working-directory: ${{github.workspace}}/build
+      run: cpack -G DEB
+
+    - name: Upload deb package
+      uses: actions/upload-artifact@v4
+      with:
+        name: double_dispatch1-deb
+        path: build/*.deb
