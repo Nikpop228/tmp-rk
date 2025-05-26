@@ -28,7 +28,8 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Run tests
-      run: ${{github.workspace}}/build/tests/tests && cd ${{github.workspace}}/build/tests && ctest --output-on-failure
+      working-directory: ${{github.workspace}}/build/tests
+      run: ./tests && ctest -C --output-on-failure
     
     - name: Create deb package
       working-directory: ${{github.workspace}}/build
@@ -39,3 +40,12 @@ jobs:
       with:
         name: double_dispatch1-deb
         path: build/*.deb
+
+    - name: Release
+      id: release
+      uses: comnoco/create-release@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
