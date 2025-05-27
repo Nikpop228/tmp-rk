@@ -5,8 +5,6 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-    tags:
-      - 'v*'
 
 env:
 
@@ -49,6 +47,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        allowUpdates: true
+        tag_name: 'v${{ github.run_number }}'
+        release_name: 'Release v${{ github.run_numbe }}'
