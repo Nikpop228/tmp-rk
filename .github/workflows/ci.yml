@@ -51,7 +51,7 @@ jobs:
         release_name: Release v1.${{ github.run_number }}
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: double_dispatch1-1.${{ github.run_number }}
         path: build/*.deb
